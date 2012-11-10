@@ -1,0 +1,155 @@
+<!doctype html>
+<html>
+	<head>
+		<script src="http://code.jquery.com/jquery-latest.js"></script>
+		<script src="jquery.sleepyCheckbox-0.1.js"></script>
+		<script>
+      $(document).ready(function(){
+        
+        $('input:checkbox, input:radio').sleepyCheckbox({
+
+          // checkbox : {
+          //   spriteWidth              : 20,
+          //   spriteHeight             : 20,
+          //   spriteUnits              : 'px',
+          //   spriteOrder              : ['uncheckedMouseOut', 'uncheckedMouseOver', 'checkedMouseOut', 'checkedMouseOver'],
+          //   spriteDirection          : 'vertical',
+          //   pathToSprite             : 'images/shop/checkbox_sprite_vertical.png',
+          //   labelToThe               : 'right',
+          //   htmlWrapperTag           : 'div',
+          //   htmlWrapperClass         : 'my-checkbox-wrapper-class',
+          //   htmlAnchorClass          : 'my-checkbox-anchor-class',
+          //   htmlLabelClass           : 'my-checkbox-label-class',
+          //   onBeforeClick            : function ( element, event ) {
+          //     //console.log('onBeforeClick');
+          //   },
+          //   onAfterClick             : function ( element, event ) {
+          //     //console.log('onAfterClick');
+          //   },
+          //   onBeforeMouseOver        : function ( element, event ) {
+          //     //console.log('onBeforeMouseOver');
+          //   },
+          //   onAfterMouseOver         : function ( element, event ) {
+          //     //console.log('onAfterMouseOver');
+          //   },
+          //   onBeforeMouseOut         : function ( element, event ) {
+          //     //console.log('onBeforeMouseOut');
+          //   },
+          //   onAfterMouseOut          : function ( element, event ) {
+          //     //console.log('onAfterMouseOut');
+          //   }
+          // },
+          // radio : {
+          //   spriteWidth              : 20,
+          //   spriteHeight             : 20,
+          //   spriteUnits              : 'px',
+          //   spriteOrder              : ['uncheckedMouseOut', 'uncheckedMouseOver', 'checkedMouseOut', 'checkedMouseOver'],
+          //   spriteDirection          : 'vertical',
+          //   pathToSprite             : 'images/shop/radio_sprite_vertical.png',
+          //   labelToThe               : 'right',
+          //   htmlWrapperTag           : 'div',
+          //   htmlWrapperClass         : 'my-radio-wrapper-class',
+          //   htmlAnchorClass          : 'my-radio-anchor-class',
+          //   htmlLabelClass           : 'my-radio-label-class',
+          //   onBeforeClick            : function ( element, event ) {
+          //     //console.log('onBeforeClick');
+          //   },
+          //   onAfterClick             : function ( element, event ) {
+          //     //console.log('onAfterClick');
+          //   },
+          //   onBeforeMouseOver        : function ( element, event ) {
+          //     //console.log('onBeforeMouseOver');
+          //   },
+          //   onAfterMouseOver         : function ( element, event ) {
+          //     //console.log('onAfterMouseOver');
+          //   },
+          //   onBeforeMouseOut         : function ( element, event ) {
+          //     //console.log('onBeforeMouseOut');
+          //   },
+          //   onAfterMouseOut          : function ( element, event ) {
+          //     //console.log('onAfterMouseOut');
+          //   }
+          // }
+
+          spriteWidth              : 20,
+          spriteHeight             : 20,
+          spriteUnits              : 'px',
+          spriteOrder              : ['uncheckedMouseOut', 'uncheckedMouseOver', 'checkedMouseOut', 'checkedMouseOver'],
+          spriteDirection          : 'vertical',
+          pathToCheckboxSprite     : 'images/checkbox_sprite_vertical.png',
+          pathToRadioSprite        : 'images/radio_sprite_vertical.png',
+          labelToThe               : 'right',
+          htmlWrapperTag           : 'div',
+          htmlWrapperClass         : 'my-wrapper-class',
+          htmlAnchorClass          : 'my-anchor-class',
+          htmlLabelClass           : 'my-label-class',
+          onBeforeClick            : function ( element, event ) {
+            //console.log('onBeforeClick');
+          },
+          onAfterClick             : function ( element, event ) {
+            //console.log('onAfterClick');
+          },
+          onBeforeMouseOver        : function ( element, event ) {
+            //console.log('onBeforeMouseOver');
+          },
+          onAfterMouseOver         : function ( element, event ) {
+            //console.log('onAfterMouseOver');
+          },
+          onBeforeMouseOut         : function ( element, event ) {
+            //console.log('onBeforeMouseOut');
+          },
+          onAfterMouseOut          : function ( element, event ) {
+            //console.log('onAfterMouseOut');
+          }
+        });
+
+        $('a#submit').click( function ( event ) {
+          event.preventDefault();
+          var $checked = $('input:checked'); // This accounts for both checkboxes and radio buttons
+          for (var i = 0; i < $checked.length; i++) {
+            console.log( $checked[i].value );
+          };
+        });
+
+      }); // End document.ready
+    </script>
+    <style>
+      html, body {
+        font-family: Arial, sans-serif;
+        background-color: #e5e5e5;
+      }
+      div.my-wrapper-class {
+        float: left;
+        display: block;
+        clear: both;
+        margin: 0 0 5px 0;
+      }
+      div.my-wrapper-class label {
+        margin: 0 0 0 5px;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+      a#submit {
+        display: block;
+        clear: both;
+      }
+    </style>
+	</head>
+
+	<body>
+		<input name="my-checkboxes[]" data-label="Checkbox 1" type="checkbox" value="cb-123" />
+    <input name="my-checkboxes[]" data-label="Checkbox 2" type="checkbox" value="cb-abc" />
+    <input name="my-checkboxes[]" data-label="Checkbox 3" type="checkbox" value="cb-true" />
+
+    <input name="my-radios[]" data-label="Radio 1" type="radio" value="r-123" />
+    <input name="my-radios[]" data-label="Radio 2" type="radio" value="r-abc" />
+    <input name="my-radios[]" data-label="Radio 3" type="radio" value="r-true" />
+
+    <a id="submit" href="#">Submit</a>
+	</body>
+
+</html>
