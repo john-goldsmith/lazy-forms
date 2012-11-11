@@ -6,7 +6,7 @@
 		<script>
       $(document).ready(function(){
         
-        $('input:checkbox, input:radio, input:button, select, button').lazyForms();
+        $('input:checkbox, input:radio, input:button, input:submit, select, button').lazyForms();
 
       });
     </script>
@@ -53,6 +53,7 @@
       <input name="my-radios-2[]" data-label="Radio C" type="radio" value="r-true" />
 
       <select name="my-select">
+        <option value="">- Select -</option>
         <option value="o-123">Option 1</option>
         <option value="o-abc">Option 2</option>
         <option value="o-true">Option 3</option>
