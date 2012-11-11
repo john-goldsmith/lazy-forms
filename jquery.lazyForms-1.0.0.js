@@ -102,8 +102,23 @@
     this.options    = $.extend( {}, defaults, options );
     this._defaults  = defaults;
     this._name      = pluginName;
+
     if (this.tag == 'input') {
       this.attrType = this.$element.attr('type');
+    };
+
+    if ( this.tag == 'input' ) {
+      if ( this.attrType == 'checkbox' ) {
+        this.options = this.options.checkbox;
+      } else if ( this.attrType == 'radio' ) {
+        this.options = this.options.radio;
+      } else if ( this.attrType == 'button' || this.attrType == 'submit' ) {
+        this.options = this.options.button;
+      };
+    } else if ( this.tag == 'select' ) {
+      this.options = this.options.select;
+    } else if ( this.tag == 'button' ) {
+      this.options = this.options.button;
     };
 
     this.init();
@@ -134,12 +149,12 @@
       this.bind();
     };
 
-    this.bind = function () {
+    this.unbind = function () {
       // TODO: Allow ability to unbind (destroy?) the plugin
     };
 
-    this.unbind = function () {
-      // TODO: Allow ability to rebind the plugin
+    this.bind = function () {
+      // TODO: Allow ability to bind the plugin (to another element?)
     };
 
     this.injectWrapper = function () {
@@ -148,7 +163,6 @@
         this.$element.wrap( '<' + this.rawHtmlWrapperTag + '/>' );
         this.setWrapper();
         this.setWrapperClass();
-        //this.styleWrapper();
       };
     };
 
@@ -164,7 +178,7 @@
 
     this.styleWrapper = function () {
       this.$wrapper.css({
-        'display' : 'inline-block'
+        
       });
     };
 
@@ -393,13 +407,29 @@
 
     };
 
+    this.buildCheckbox = function () {
+
+    };
+
+    this.buildRadio = function () {
+
+    };
+
+    this.buildSelect = function () {
+
+    };
+
+    this.buildButton = function () {
+
+    };
+
     this.build = function () {
       this.hideElement();
-      this.computeSprite();
+      // this.computeSprite();
       this.injectWrapper();
-      this.injectAnchor();
-      this.injectLabel();
-      this.bindEvents();
+      //this.injectAnchor();
+      // this.injectLabel();
+      // this.bindEvents();
     };
 
     this.build();
