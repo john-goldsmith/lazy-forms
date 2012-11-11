@@ -1,45 +1,146 @@
 ;(function ($, window) {
 
   var defaults = {
-        spriteWidth          : '20px',
-        spriteHeight         : '20px',
-        spriteUnits          : 'px',
-        spriteOrder          : ['uncheckedMouseOut', 'uncheckedMouseOver', 'checkedMouseOut', 'checkedMouseOver'],
-        spriteDirection      : 'vertical',
-        pathToCheckboxSprite : 'images/checkbox_sprite_vertical.png',
-        pathToRadioSprite    : 'images/radio_sprite_vertical.png',
-        labelToThe           : 'right',
-        htmlWrapperTag       : 'div',
-        htmlWrapperClass     : 'sleepy-checkbox-wrapper',
-        htmlAnchorClass      : 'sleepy-checkbox-anchor',
-        htmlLabelClass       : 'sleepy-checkbox-label',
+        checkbox : {
+          spriteWidth          : 20,
+          spriteHeight         : 20,
+          spriteUnits          : 'px',
+          spriteOrder          : ['uncheckedMouseOut', 'uncheckedMouseOver', 'checkedMouseOut', 'checkedMouseOver'],
+          spriteDirection      : 'vertical',
+          pathToSprite         : 'images/checkbox_vertical.png',
+          labelToThe           : 'right',
+          htmlWrapperTag       : 'div',
+          htmlWrapperClass     : 'lazy-checkbox-wrapper',
+          htmlAnchorClass      : 'lazy-checkbox-anchor',
+          htmlLabelClass       : 'lazy-checkbox-label',
+          onBeforeClick        : false,
+          onAfterClick         : false,
+          onBeforeMouseOver    : false,
+          onAfterMouseOver     : false,
+          onBeforeMouseOut     : false,
+          onAfterMouseOut      : false
+        },
+        radio : {
+          spriteWidth          : 20,
+          spriteHeight         : 20,
+          spriteUnits          : 'px',
+          spriteOrder          : ['uncheckedMouseOut', 'uncheckedMouseOver', 'checkedMouseOut', 'checkedMouseOver'],
+          spriteDirection      : 'vertical',
+          pathToSprite         : 'images/radio_vertical.png',
+          labelToThe           : 'right',
+          htmlWrapperTag       : 'div',
+          htmlWrapperClass     : 'lazy-radio-wrapper',
+          htmlAnchorClass      : 'lazy-radio-anchor',
+          htmlLabelClass       : 'lazy-radio-label',
+          onBeforeClick        : false,
+          onAfterClick         : false,
+          onBeforeMouseOver    : false,
+          onAfterMouseOver     : false,
+          onBeforeMouseOut     : false,
+          onAfterMouseOut      : false
+        },
+        button : {
+          spriteLeftWidth      : 5,
+          spriteLeftHeight     : 30,
+          spriteMidWidth       : 1,
+          spriteMidHeight      : 30,
+          spriteRightWidth     : 5,
+          spriteRightHeight    : 30,
+          spriteUnits          : 'px',
+          spriteOrder          : ['mouseOut', 'mouseOver'],
+          spriteDirection      : 'vertical',
+          pathToLeftSprite     : 'images/button_left_vertical.png',
+          pathToMidSprite      : 'images/button_mid_vertical.png',
+          pathToRightSprite    : 'images/button_right_vertical.png',
+          htmlWrapperTag       : 'div',
+          htmlWrapperClass     : 'lazy-button-wrapper',
+          htmlAnchorClass      : 'lazy-button-anchor',
+          onBeforeClick        : false,
+          onAfterClick         : false,
+          onBeforeMouseOver    : false,
+          onAfterMouseOver     : false,
+          onBeforeMouseOut     : false,
+          onAfterMouseOut      : false
+        },
+        select : {
+          spriteLeftWidth      : 5,
+          spriteLeftHeight     : 30,
+          spriteMidWidth       : 1,
+          spriteMidHeight      : 30,
+          spriteRightWidth     : 29,
+          spriteRightHeight    : 30,
+          spriteUnits          : 'px',
+          spriteOrder          : ['mouseOut', 'mouseOver'],
+          spriteDirection      : 'vertical',
+          pathToLeftSprite     : 'images/select_left_vertical.png',
+          pathToMidSprite      : 'images/select_mid_vertical.png',
+          pathToRightSprite    : 'images/select_right_vertical.png',
+          htmlWrapperTag       : 'div',
+          htmlWrapperClass     : 'lazy-select-wrapper',
+          htmlAnchorClass      : 'lazy-select-anchor',
+          htmlSpanClass        : 'lazy-select-span',
+          onBeforeClick        : false,
+          onAfterClick         : false,
+          onBeforeMouseOver    : false,
+          onAfterMouseOver     : false,
+          onBeforeMouseOut     : false,
+          onAfterMouseOut      : false
+        }
       },
-      pluginName = 'sleepyCheckbox',
+      pluginName = 'lazyForms',
       document = window.document;
 
-  /*
+  /**
    * Constructor
    */
 
-  function SleepyCheckbox (element, options) {
+  function LazyForms (element, options) {
     this.element    = element;
     this.$element   = $(element);
-    this.selector   = this.$element.prop('tagName').toLowerCase();
-    if (this.selector == 'input') {
-      this.selectorType = this.$element.attr('type');
-    };
-    this.options    = $.extend( {}, defaults, options);
+    this.tag        = this.$element.prop('tagName').toLowerCase();
+    this.attrName   = this.$element.attr('name');
+    this.options    = $.extend( {}, defaults, options );
     this._defaults  = defaults;
     this._name      = pluginName;
+    if (this.tag == 'input') {
+      this.attrType = this.$element.attr('type');
+    };
 
     this.init();
+  };
+
+  /**
+   * Private members
+   */
+
+  var _myPrivateVar;
+
+  /**
+   * Private methods
+   */
+
+  var _myPrivateMethod = function () {
+    
   };
 
   /**
    * Public methods
    */
 
-  SleepyCheckbox.prototype.init = function () {
+  LazyForms.prototype.init = function () {
+
+    this.rebind = function () {
+      this.unbind();
+      this.bind();
+    };
+
+    this.bind = function () {
+      // TODO: Allow ability to unbind (destroy?) the plugin
+    };
+
+    this.unbind = function () {
+      // TODO: Allow ability to rebind the plugin
+    };
 
     this.injectWrapper = function () {
       if ( this.options.htmlWrapperTag && typeof( this.options.htmlWrapperTag ) == 'string' ) {
@@ -104,11 +205,11 @@
     };
 
     this.styleAnchor = function () {
-      if ( this.selectorType == 'checkbox' ) {
+      if ( this.attrType == 'checkbox' ) {
         if ( this.options.pathToCheckboxSprite && typeof( this.options.pathToCheckboxSprite ) == 'string' ) {
           this.pathToSprite = this.options.pathToCheckboxSprite;
         };
-      } else if ( this.selectorType == 'radio' ) {
+      } else if ( this.attrType == 'radio' ) {
         if ( this.options.pathToRadioSprite && typeof( this.options.pathToRadioSprite ) == 'string' ) {
           this.pathToSprite = this.options.pathToRadioSprite;
         };
@@ -206,15 +307,15 @@
       };
     };
 
-    this.resetAllRadios = function () {
-      $( this.selector + '[type="' + this.selectorType + '"]' ).attr( 'checked', false ); // TODO: limit this to only elements affected by the plugin
-      $( this.selector + '[type="' + this.selectorType + '"]' ).siblings( this.$label ).css({
+    this.resetGroup = function () {
+      $( this.tag + '[type="' + this.attrType + '"][name="' + this.attrName + '"]' ).attr( 'checked', false );
+      $( this.tag + '[type="' + this.attrType + '"][name="' + this.attrName + '"]' ).siblings( this.$label ).css({
         'background-position' : this.spriteStates.uncheckedMouseOut
       });
     };
 
     this.radioClick = function ( event ) {
-      this.resetAllRadios();
+      this.resetGroup();
       this.$element.attr( 'checked', true );
       this.$anchor.css({
         'background-position' : this.spriteStates.checkedMouseOut
@@ -272,13 +373,13 @@
     this.bindEvents = function () {
       var self = this;
 
-      if ( this.selectorType == 'checkbox' ) {
+      if ( this.attrType == 'checkbox' ) {
         this.$wrapper.toggle( function ( event ) {
           self.checkboxClickOn( event );
         }, function ( event ) {
           self.checkboxClickOff( event );
         });
-      } else if ( this.selectorType == 'radio' ) {
+      } else if ( this.attrType == 'radio' ) {
         this.$wrapper.bind( 'click', function (event) {
           self.radioClick( event );
         });
@@ -310,10 +411,10 @@
    */
 
   $.fn[pluginName] = function (options) {
-    return this.each(function () {
-      if (!$.data(this, 'plugin_' + pluginName)) {
-        $.data(this, 'plugin_' + pluginName, new SleepyCheckbox( this, options ));
-      }
+    return this.each( function () {
+      if ( !$.data( this, 'plugin_' + pluginName ) ) {
+        $.data( this, 'plugin_' + pluginName, new LazyForms( this, options ) );
+      };
     });
   };
 
