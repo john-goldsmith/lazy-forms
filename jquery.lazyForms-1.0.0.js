@@ -385,6 +385,8 @@
         } else if ( this.isSubmit || this.isInputButton ) {
 
           this.spriteOrderKeys = _.keys( this.options.spriteOrder );
+          this.rawSpriteWidth = {};
+          this.rawSpriteHeight = {};
 
           // this.rawSpriteHeight.left
           // this.rawSpriteHeight.middle
