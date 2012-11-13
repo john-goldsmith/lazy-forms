@@ -2,11 +2,12 @@
 <html>
 	<head>
 		<script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="http://underscorejs.org/underscore-min.js"></script>
 		<script src="../jquery.lazyForms-1.0.0.js"></script>
 		<script>
       $(document).ready(function(){
         
-        $('input:checkbox, input:radio, input:button, input:submit, select, button').lazyForms();
+        $('input:checkbox, input:radio, input:submit, input:button, select, button').lazyForms();
 
       });
     </script>
@@ -40,6 +41,9 @@
 	<body>
 
     <form action="" method="post">
+
+      <!--<a href="#">Test</a>-->
+
   		<input name="my-checkboxes[]" data-label="Checkbox 1" type="checkbox" value="cb-123" />
       <input name="my-checkboxes[]" data-label="Checkbox 2" type="checkbox" value="cb-abc" />
       <input name="my-checkboxes[]" data-label="Checkbox 3" type="checkbox" value="cb-true" />
@@ -60,7 +64,7 @@
       </select>
 
       <input name="my-button" type="button" id="button" value="Input Button" />
-      <input name="my-submit" type="submit" id="submit" value="Submit" />
+      <input name="my-submit" type="submit" id="submit" value="Submit Button" />
     </form>
 
     <button>Button</button>
