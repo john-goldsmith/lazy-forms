@@ -40,21 +40,32 @@
           onAfterMouseOut      : false
         },
         button : {
-          spriteLeftWidth      : 5,
-          spriteLeftHeight     : 30,
-          spriteMidWidth       : 1,
-          spriteMidHeight      : 30,
-          spriteRightWidth     : 5,
-          spriteRightHeight    : 30,
+          spriteWidth          : {
+            left   : 5,
+            middle : 1,
+            right  : 5
+          },
+          spriteHeight         : {
+            left   : 30,
+            middle : 30,
+            right  : 30
+          },
           spriteUnits          : 'px',
-          spriteOrder          : ['mouseOut', 'mouseOver'],
           spriteDirection      : 'vertical',
-          pathToLeftSprite     : 'images/button_left_vertical.png',
-          pathToMidSprite      : 'images/button_mid_vertical.png',
-          pathToRightSprite    : 'images/button_right_vertical.png',
+          pathToSprite         : {
+            left   : 'images/button_left_vertical.png',
+            middle : 'images/button_mid_vertical.png',
+            right  : 'images/button_right_vertical.png'
+          },
+          spriteOrder          : {
+            left   : ['mouseOut', 'mouseOver'],
+            middle : ['mouseOut', 'mouseOver'],
+            right  : ['mouseOut', 'mouseOver']
+          },
           htmlWrapperTag       : 'div',
           htmlWrapperClass     : 'lazy-button-wrapper',
           htmlAnchorClass      : 'lazy-button-anchor',
+          htmlSpanClass        : 'lazy-button-span',
           onBeforeClick        : false,
           onAfterClick         : false,
           onBeforeMouseOver    : false,
@@ -63,18 +74,28 @@
           onAfterMouseOut      : false
         },
         select : {
-          spriteLeftWidth      : 5,
-          spriteLeftHeight     : 30,
-          spriteMidWidth       : 1,
-          spriteMidHeight      : 30,
-          spriteRightWidth     : 29,
-          spriteRightHeight    : 30,
+          spriteWidth          : {
+            left   : 5,
+            middle : 1,
+            right  : 29
+          },
+          spriteHeight         : {
+            left   : 30,
+            middle : 30,
+            right  : 30
+          },
           spriteUnits          : 'px',
-          spriteOrder          : ['mouseOut', 'mouseOver'],
           spriteDirection      : 'vertical',
-          pathToLeftSprite     : 'images/select_left_vertical.png',
-          pathToMidSprite      : 'images/select_mid_vertical.png',
-          pathToRightSprite    : 'images/select_right_vertical.png',
+          pathToSprite         : {
+            left   : 'images/select_left_vertical.png',
+            middle : 'images/select_mid_vertical.png',
+            right  : 'images/select_right_vertical.png'
+          },
+          spriteOrder          : {
+            left   : ['mouseOut', 'mouseOver'],
+            middle : ['mouseOut', 'mouseOver'],
+            right  : ['mouseOut', 'mouseOver']
+          },
           htmlWrapperTag       : 'div',
           htmlWrapperClass     : 'lazy-select-wrapper',
           htmlAnchorClass      : 'lazy-select-anchor',
@@ -102,40 +123,40 @@
     this.options    = $.extend( {}, defaults, options );
     this._defaults  = defaults;
     this._name      = pluginName;
-
     if (this.tag == 'input') {
       this.attrType = this.$element.attr('type');
     };
 
+    // Based on what type of form element it is, figure out which subset of options to use
     if ( this.tag == 'input' ) {
+      this.isInput = true;
       if ( this.attrType == 'checkbox' ) {
+        this.isCheckbox = true;
         this.options = this.options.checkbox;
       } else if ( this.attrType == 'radio' ) {
+        this.isRadio = true;
         this.options = this.options.radio;
-      } else if ( this.attrType == 'button' || this.attrType == 'submit' ) {
+      } else if ( this.attrType == 'button' ) {
+        this.isInputButton = true;
         this.options = this.options.button;
-      };
+      } else if ( this.attrType == 'submit' ) {
+        this.isSubmit = true;
+        this.options = this.options.button;
+      }
+      //this.options = this.options[ this.attrType ];
     } else if ( this.tag == 'select' ) {
+      this.isSelect = true;
       this.options = this.options.select;
     } else if ( this.tag == 'button' ) {
+      this.isButton = true;
       this.options = this.options.button;
+    } else {
+      this.notSupported = true;
+      // TODO: Unsupported tags
+      //return;
     };
 
     this.init();
-  };
-
-  /**
-   * Private members
-   */
-
-  var _myPrivateVar;
-
-  /**
-   * Private methods
-   */
-
-  var _myPrivateMethod = function () {
-    
   };
 
   /**
@@ -182,28 +203,57 @@
       });
     };
 
+    // TODO: Upon initialization, checked for pre-selected checkboxes, radios, selects, etc.
+
     this.injectLabel = function () {
-      this.$wrapper.append( '<label/>' );
-      this.setLabel();
-      this.setLabelClass();
-      if ( this.$element.attr('data-label') ) {
-        this.$label.html( this.$element.attr('data-label') );
+      if ( this.isInput ) {
+        if ( this.isCheckbox || this.isRadio ) {
+          if ( this.$element.attr('data-label') ) {
+            this.$wrapper.append( '<label/>' );
+            this.setLabel();
+            this.setLabelClass();
+            this.$label.html( this.$element.attr('data-label') );
+          };
+        } else if ( this.isSubmit || this.isInputButton ) {
+          this.setLabel();
+          //this.$anchor.html( this.$label );
+        };
+      } else if ( this.isSelect || this.isButton ) {
+        this.setLabel();
+        //this.$anchor.html( this.$label );
       };
+      
     };
 
     this.setLabel = function () {
-      this.$label = this.$element.siblings('label');
+      // TODO: Note that for checkboxes and radios, this.$label is an actual object, whereas for submits, buttons, and selects it's just text
+      if ( this.isInput ) {
+        if ( this.isCheckbox || this.isRadio ) {
+          this.$label = this.$element.siblings('label');
+        } else if ( this.isSubmit || this.isInputButton ) {
+          this.$label = this.$element.attr('value');
+        };
+      } else if ( this.isSelect ) {
+        this.$label = this.$element.children('option').first().html();
+      } else if ( this.isButton ) {
+        this.$label = this.$element.html();
+      };
     };
 
     this.setLabelClass = function () {
-      if ( this.options.htmlLabelClass && typeof( this.options.htmlLabelClass ) == 'string' ) {
-        this.$label.addClass( this.options.htmlLabelClass );
+      if ( this.isInput ) {
+        if ( this.isCheckbox || this.isRadio ) {
+          if ( this.options.htmlLabelClass && typeof( this.options.htmlLabelClass ) == 'string' ) {
+            this.$label.addClass( this.options.htmlLabelClass );
+          };
+        };
       };
     };
 
     this.injectAnchor = function () {
       this.$wrapper.append('<a href="#"/>');
       this.setAnchor();
+      this.injectSpans();
       this.setAnchorClass();
       this.styleAnchor();
     };
@@ -219,26 +269,47 @@
     };
 
     this.styleAnchor = function () {
-      if ( this.attrType == 'checkbox' ) {
-        if ( this.options.pathToCheckboxSprite && typeof( this.options.pathToCheckboxSprite ) == 'string' ) {
-          this.pathToSprite = this.options.pathToCheckboxSprite;
+      if ( this.isInput ) {
+        if ( this.isCheckbox || this.isRadio ) {
+          if ( this.options.pathToSprite && typeof( this.options.pathToSprite ) == 'string' ) {
+            this.$anchor.css({
+              'background-image' : 'url(' + this.pathToSprite + ')',
+              'background-repeat': 'no-repeat no-repeat'
+            });
+            this.$anchor.css({
+              'height' : this.rawSpriteHeight + this.options.spriteUnits,
+              'width'  : this.rawSpriteWidth + this.options.spriteUnits,
+              'display': 'block'
+            });
+          };
+        } else if ( this.isSubmit || this.isInputButton ) {
+          this.$leftSpan.css({
+            'background-image' : 'url(' + this.options.pathToLeftSprite + ')',
+            'background-repeat' : 'no-repeat'
+          });
+          this.$midSpan.css({
+            'background-image' : 'url(' + this.options.pathToMidSprite + ')',
+            'background-repeat' : 'repeat-x'
+          });
+          this.$rightSpan.css({
+            'background-image' : 'url(' + this.options.pathToRightSprite + ')',
+            'background-repeat' : 'no-repeat' 
+          });
         };
-      } else if ( this.attrType == 'radio' ) {
-        if ( this.options.pathToRadioSprite && typeof( this.options.pathToRadioSprite ) == 'string' ) {
-          this.pathToSprite = this.options.pathToRadioSprite;
-        };
+      } else if ( this.isSelect || this.isButton ) {
+        this.$leftSpan.css({
+          'background-image' : 'url(' + this.options.pathToLeftSprite + ')',
+          'background-repeat' : 'no-repeat'
+        });
+        this.$midSpan.css({
+          'background-image' : 'url(' + this.options.pathToMidSprite + ')',
+          'background-repeat' : 'repeat-x'
+        });
+        this.$rightSpan.css({
+          'background-image' : 'url(' + this.options.pathToRightSprite + ')',
+          'background-repeat' : 'no-repeat'
+        });
       };
-
-      this.$anchor.css({
-        'background-image' : 'url(' + this.pathToSprite + ')',
-        'background-repeat': 'no-repeat no-repeat'
-      });
-
-      this.$anchor.css({
-        'height' : this.rawSpriteHeight + this.options.spriteUnits,
-        'width'  : this.rawSpriteWidth + this.options.spriteUnits,
-        'display': 'block'
-      });
 
       if ( this.options.labelToThe && typeof( this.options.labelToThe ) == 'string' ) {
         if ( this.options.labelToThe == 'right' ) {
@@ -253,36 +324,139 @@
       };
     };
 
+    this.injectSpans = function () {
+      if ( this.isInput ) {
+        if ( this.isSubmit || this.isInputButton ) {
+          this.$anchor.append('<span/><span/><span/>');
+        };
+      } else if ( this.isSelect || this.isButton ) {
+        this.$anchor.append('<span/><span/><span/>');
+      };
+      this.setSpans();
+      this.setSpanClass();
+    };
+
+    this.setSpans = function () {
+      this.$spans     = this.$anchor.children('span');
+      this.$leftSpan  = this.$anchor.children('span').first();
+      this.$midSpan   = this.$anchor.children('span:not(:first, :last)')
+      this.$rightSpan = this.$anchor.children('span').last();
+    };
+
+    this.setSpanClass = function () {
+      if ( this.options.htmlSpanClass && typeof(this.options.htmlSpanClass) == 'string' ) {
+        this.$spans.addClass( this.options.htmlSpanClass );
+        this.$leftSpan.addClass( this.options.htmlSpanClass + '-left' );
+        this.$midSpan.addClass( this.options.htmlSpanClass + '-mid' );
+        this.$rightSpan.addClass( this.options.htmlSpanClass + '-right' );
+      };
+    };
+
     this.hideElement = function () {
       this.$element.hide();
     };
 
     this.computeSprite = function () {
+      this.spriteStates = {};
+
       if ( this.options.spriteOrder && typeof( this.options.spriteOrder ) == 'object' ) {
-        this.spriteLength = this.options.spriteOrder.length;
-        this.spriteStates = {};
-        if ( this.options.spriteHeight ) {
-          if ( typeof( this.options.spriteHeight ) == 'string' ) {
-            this.rawSpriteHeight = parseInt( this.options.spriteHeight );
-          } else if ( typeof( this.options.spriteHeight ) == 'number' ) {
-            this.rawSpriteHeight = this.options.spriteHeight;
+        this.spriteOrderLength = _.size( this.options.spriteOrder );
+      };
+
+      if ( this.isInput ) {
+
+        if ( this.isCheckbox || this.isRadio ) {
+
+          if ( this.options.spriteWidth ) {
+            this.rawSpriteWidth = ( typeof( this.options.spriteWidth ) == 'number' ) ? this.options.spriteWidth : parseInt( this.options.spriteWidth );
           };
+          if ( this.options.spriteHeight ) {
+            this.rawSpriteHeight = ( typeof( this.options.spriteHeight ) == 'number' ) ? this.options.spriteHeight : parseInt( this.options.spriteHeight );
+          };
+
+          for ( var i = 0; i < this.spriteOrderLength; i++ ) {
+            if ( this.options.spriteDirection == 'vertical' ) {
+              this.spriteStates[ this.options.spriteOrder[ i ] ] = '0' + this.options.spriteUnits + ' ' + ((this.rawSpriteHeight * i) * -1).toString() + this.options.spriteUnits;
+            } else if ( this.options.spriteDirection == 'horizontal' ) {
+              this.spriteStates[ this.options.spriteOrder[ i ] ] = ((this.rawSpriteWidth * i) * -1).toString() + this.options.spriteUnits + ' 0' + this.options.spriteUnits;
+            };
+          };
+
+        } else if ( this.isSubmit || this.isInputButton ) {
+
+          this.spriteOrderKeys = _.keys( this.options.spriteOrder );
+
+          // this.rawSpriteHeight.left
+          // this.rawSpriteHeight.middle
+          // this.rawSpriteHeight.right
+
+          // this.rawSpriteWidth.left
+          // this.rawSpriteWidth.middle
+          // this.rawSpriteWidth.right
+
+          if ( this.options.spriteLeftWidth ) {
+            this.rawSpriteLeftWidth = ( typeof( this.options.spriteLeftWidth ) == 'number' ) ? this.options.spriteLeftWidth : parseInt( this.options.spriteLeftWidth );
+          };
+          if ( this.options.spriteLeftHeight ) {
+            this.rawSpriteLeftHeight = ( typeof( this.options.spriteLeftHeight ) == 'number' ) ? this.options.spriteLeftHeight : parseInt( this.options.spriteLeftHeight );
+          };
+
+          if ( this.options.spriteMidWidth ) {
+            this.rawSpriteMidWidth = ( typeof( this.options.spriteMidWidth ) == 'number' ) ? this.options.spriteMidWidth : parseInt( this.options.spriteMidWidth );
+          };
+          if ( this.options.spriteMidHeight ) {
+            this.rawSpriteMidHeight = ( typeof( this.options.spriteMidHeight ) == 'number' ) ? this.options.spriteMidHeight : parseInt( this.options.spriteMidHeight );
+          };
+
+          if ( this.options.spriteRightWidth ) {
+            this.rawSpriteRightWidth = ( typeof( this.options.spriteRightWidth ) == 'number' ) ? this.options.spriteRightWidth : parseInt( this.options.spriteRightWidth );
+          };
+          if ( this.options.spriteRightHeight ) {
+            this.rawSpriteRightHeight = ( typeof( this.options.spriteRightHeight ) == 'number' ) ? this.options.spriteRightHeight : parseInt( this.options.spriteRightHeight );
+          };
+
+          // console.log( this.spriteOrderLength ); // 3
+          // console.log( this.spriteOrderKeys ); // ['left', 'middle', 'right']
+          // console.log( this.spriteOrderKeys[ 0 ] ); // left
+          // console.log( this.options.spriteOrder[ this.spriteOrderKeys[ 0 ] ] ); // ['mouseOut', 'mouseOver']
+          // console.log( this.options.spriteOrder[ this.spriteOrderKeys[ 0 ] ].length ); // 2
+          // console.log( this.options.spriteOrder[ this.spriteOrderKeys[ 0 ] ][ 0 ] ); // mouseOut
+          // console.log('-----');
+
+          for ( var i = 0; i < this.spriteOrderLength; i++ ) {
+            for (var j = 0; j < this.options.spriteOrder[ this.spriteOrderKeys[ i ] ].length; j++ ) {
+              if ( this.options.spriteDirection == 'vertical' ) {
+                this.spriteStates[ this.options.spriteOrder[ this.spriteOrderKeys[ i ] ][ j ] ] = '0' + this.options.spriteUnits + ' ' + ((this.options.spriteHeight.left * j) * -1).toString() + this.options.spriteUnits;
+              } else if ( this.options.spriteDirection == 'horizontal' ) {
+                this.spriteStates[ this.options.spriteOrder[ this.spriteOrderKeys[ i ] ][ j ] ] = ((this.options.spriteWidth.left * j) * -1).toString() + this.options.spriteUnits + ' 0' + this.options.spriteUnits;
+              };
+            };
+          };
+
         };
-        if ( this.options.spriteWidth ) {
-          if ( typeof( this.options.spriteWidth ) == 'string' ) {
-            this.rawSpriteHeight = parseInt( this.options.spriteWidth );
-          } else if ( typeof( this.options.spriteWidth ) == 'number' ) {
-            this.rawSpriteWidth = this.options.spriteWidth;
-          };
+      } else if ( this.isSelect || this.isButton ) {
+        if ( this.options.spriteLeftWidth ) {
+          this.rawSpriteLeftWidth = ( typeof( this.options.spriteLeftWidth ) == 'number' ) ? this.options.spriteLeftWidth : parseInt( this.options.spriteLeftWidth );
         };
-        for ( var i = 0; i < this.spriteLength; i++ ) {
-          if ( this.options.spriteDirection == 'vertical' ) {
-            this.spriteStates[ this.options.spriteOrder[ i ] ] = '0' + this.options.spriteUnits + ' ' + ((this.rawSpriteHeight * i) * -1).toString() + this.options.spriteUnits;
-          } else if ( this.options.spriteDirection == 'horizontal' ) {
-            this.spriteStates[ this.options.spriteOrder[ i ] ] = ((this.rawSpriteWidth * i) * -1).toString() + this.options.spriteUnits + ' 0' + this.options.spriteUnits;
-          };
+        if ( this.options.spriteLeftHeight ) {
+          this.rawSpriteLeftHeight = ( typeof( this.options.spriteLeftHeight ) == 'number' ) ? this.options.spriteLeftHeight : parseInt( this.options.spriteLeftHeight );
+        };
+
+        if ( this.options.spriteMidWidth ) {
+          this.rawSpriteMidWidth = ( typeof( this.options.spriteMidWidth ) == 'number' ) ? this.options.spriteMidWidth : parseInt( this.options.spriteMidWidth );
+        };
+        if ( this.options.spriteMidHeight ) {
+          this.rawSpriteMidHeight = ( typeof( this.options.spriteMidHeight ) == 'number' ) ? this.options.spriteMidHeight : parseInt( this.options.spriteMidHeight );
+        };
+
+        if ( this.options.spriteRightWidth ) {
+          this.rawSpriteRightWidth = ( typeof( this.options.spriteRightWidth ) == 'number' ) ? this.options.spriteRightWidth : parseInt( this.options.spriteRightWidth );
+        };
+        if ( this.options.spriteRightHeight ) {
+          this.rawSpriteRightHeight = ( typeof( this.options.spriteRightHeight ) == 'number' ) ? this.options.spriteRightHeight : parseInt( this.options.spriteRightHeight );
         };
       };
+      console.log( this.spriteStates );
     };
 
     this.customBeforeClick = function ( event ) {
@@ -387,13 +561,13 @@
     this.bindEvents = function () {
       var self = this;
 
-      if ( this.attrType == 'checkbox' ) {
+      if ( this.isCheckbox ) {
         this.$wrapper.toggle( function ( event ) {
           self.checkboxClickOn( event );
         }, function ( event ) {
           self.checkboxClickOff( event );
         });
-      } else if ( this.attrType == 'radio' ) {
+      } else if ( this.isRadio ) {
         this.$wrapper.bind( 'click', function (event) {
           self.radioClick( event );
         });
@@ -425,10 +599,10 @@
 
     this.build = function () {
       this.hideElement();
-      // this.computeSprite();
-      this.injectWrapper();
+      this.computeSprite();
+      //this.injectWrapper();
       //this.injectAnchor();
-      // this.injectLabel();
+      //this.injectLabel();
       // this.bindEvents();
     };
 
