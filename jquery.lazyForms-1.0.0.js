@@ -384,17 +384,15 @@
 
         } else if ( this.isSubmit || this.isInputButton ) {
 
-          this.spriteOrderKeys = _.keys( this.options.spriteOrder );
-          this.rawSpriteWidth = {};
-          this.rawSpriteHeight = {};
+          this.spriteOrderKeys  = _.keys( this.options.spriteOrder );
+          this.spriteWidthKeys  = _.keys( this.options.spriteWidth );
+          this.spriteHeightKeys = _.keys( this.options.spriteHeight );
+          this.rawSpriteWidth   = {};
+          this.rawSpriteHeight  = {};
 
           // this.rawSpriteHeight.left
           // this.rawSpriteHeight.middle
           // this.rawSpriteHeight.right
-
-          // this.rawSpriteWidth.left
-          // this.rawSpriteWidth.middle
-          // this.rawSpriteWidth.right
 
           if ( this.options.spriteLeftWidth ) {
             this.rawSpriteLeftWidth = ( typeof( this.options.spriteLeftWidth ) == 'number' ) ? this.options.spriteLeftWidth : parseInt( this.options.spriteLeftWidth );
@@ -424,6 +422,7 @@
           // console.log( this.options.spriteOrder[ this.spriteOrderKeys[ 0 ] ].length ); // 2
           // console.log( this.options.spriteOrder[ this.spriteOrderKeys[ 0 ] ][ 0 ] ); // mouseOut
           // console.log('-----');
+          // Goal: this.spriteStates.spanLeft.height
 
           for ( var i = 0; i < this.spriteOrderLength; i++ ) {
             for (var j = 0; j < this.options.spriteOrder[ this.spriteOrderKeys[ i ] ].length; j++ ) {
