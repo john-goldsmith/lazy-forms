@@ -6,22 +6,22 @@
         spriteUnits          : 'px',
         spriteOrder          : ['uncheckedMouseOut', 'uncheckedMouseOver', 'checkedMouseOut', 'checkedMouseOver'],
         spriteDirection      : 'vertical',
-        pathToCheckboxSprite : 'images/checkbox_sprite_vertical.png',
-        pathToRadioSprite    : 'images/radio_sprite_vertical.png',
+        pathToCheckboxSprite : 'images/checkbox_vertical.png',
+        pathToRadioSprite    : 'images/radio_vertical.png',
         labelToThe           : 'right',
         htmlWrapperTag       : 'div',
-        htmlWrapperClass     : 'sleepy-checkbox-wrapper',
-        htmlAnchorClass      : 'sleepy-checkbox-anchor',
-        htmlLabelClass       : 'sleepy-checkbox-label',
+        htmlWrapperClass     : 'lazy-checkbox-wrapper',
+        htmlAnchorClass      : 'lazy-checkbox-anchor',
+        htmlLabelClass       : 'lazy-checkbox-label',
       },
-      pluginName = 'sleepyCheckbox',
+      pluginName = 'lazyForms',
       document = window.document;
 
   /*
    * Constructor
    */
 
-  function SleepyCheckbox (element, options) {
+  function LazyForms (element, options) {
     this.element    = element;
     this.$element   = $(element);
     this.selector   = this.$element.prop('tagName').toLowerCase();
@@ -39,7 +39,7 @@
    * Public methods
    */
 
-  SleepyCheckbox.prototype.init = function () {
+  LazyForms.prototype.init = function () {
 
     this.injectWrapper = function () {
       if ( this.options.htmlWrapperTag && typeof( this.options.htmlWrapperTag ) == 'string' ) {
@@ -312,7 +312,7 @@
   $.fn[pluginName] = function (options) {
     return this.each(function () {
       if (!$.data(this, 'plugin_' + pluginName)) {
-        $.data(this, 'plugin_' + pluginName, new SleepyCheckbox( this, options ));
+        $.data(this, 'plugin_' + pluginName, new LazyForms( this, options ));
       }
     });
   };
