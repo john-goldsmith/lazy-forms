@@ -630,13 +630,25 @@
 
     this.mouseOut = function ( event ) {
       this.customBeforeMouseOut( event );
-      if ( this.$element.attr('checked') == 'checked' ) {
-        this.$anchor.css({
-          'background-position' : this.spriteStates.checkedMouseOut
+      if ( this.isCheckbox || this.isRadio ) {
+        if ( this.$element.attr('checked') == 'checked' ) {
+          this.$anchor.css({
+            'background-position' : this.spriteStates.checkedMouseOut
+          });
+        } else {
+          this.$anchor.css({
+            'background-position' : this.spriteStates.uncheckedMouseOut
+          });
+        };
+      } else if ( this.isSelect || this.isButton || this.isInputButton || this.isSubmit ) {
+        this.$leftSpan.css({
+          'background-position' : this.spriteStates.left.mouseOut
         });
-      } else {
-        this.$anchor.css({
-          'background-position' : this.spriteStates.uncheckedMouseOut
+        this.$midSpan.css({
+          'background-position' : this.spriteStates.middle.mouseOut
+        });
+        this.$rightSpan.css({
+          'background-position' : this.spriteStates.right.mouseOut
         });
       };
       this.customAfterMouseOut( event );
@@ -644,13 +656,25 @@
 
     this.mouseOver = function ( event ) {
       this.customBeforeMouseOver( event );
-      if ( this.$element.attr('checked') == 'checked' ) {
-        this.$anchor.css({
-          'background-position' : this.spriteStates.checkedMouseOver
+      if ( this.isCheckbox || this.isRadio ) {
+        if ( this.$element.attr('checked') == 'checked' ) {
+          this.$anchor.css({
+            'background-position' : this.spriteStates.checkedMouseOver
+          });
+        } else {
+          this.$anchor.css({
+            'background-position' : this.spriteStates.uncheckedMouseOver
+          });
+        };
+      } else if ( this.isSelect || this.isButton || this.isInputButton || this.isSubmit ) {
+        this.$leftSpan.css({
+          'background-position' : this.spriteStates.left.mouseOver
         });
-      } else {
-        this.$anchor.css({
-          'background-position' : this.spriteStates.uncheckedMouseOver
+        this.$midSpan.css({
+          'background-position' : this.spriteStates.middle.mouseOver
+        });
+        this.$rightSpan.css({
+          'background-position' : this.spriteStates.right.mouseOver
         });
       };
       this.customAfterMouseOver( event );
@@ -669,6 +693,10 @@
         this.$wrapper.bind( 'click', function (event) {
           self.radioClick( event );
         });
+      } else if ( this.isSelect ) {
+        // Do stuff
+      } else if ( this.isButton || this.isInputButton ) {
+        // Do other stuff
       };
 
       this.$wrapper.hover( function ( event ) {
