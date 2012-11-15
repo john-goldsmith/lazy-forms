@@ -216,11 +216,11 @@
           };
         } else if ( this.isSubmit || this.isInputButton ) {
           this.setLabel();
-          //this.$anchor.html( this.$label );
+          this.$midSpan.html( this.$label );
         };
       } else if ( this.isSelect || this.isButton ) {
         this.setLabel();
-        //this.$anchor.html( this.$label );
+        this.$midSpan.html( this.$label );
       };
       
     };
@@ -273,41 +273,77 @@
         if ( this.isCheckbox || this.isRadio ) {
           if ( this.options.pathToSprite && typeof( this.options.pathToSprite ) == 'string' ) {
             this.$anchor.css({
-              'background-image' : 'url(' + this.pathToSprite + ')',
-              'background-repeat': 'no-repeat no-repeat'
-            });
-            this.$anchor.css({
+              'background-image' : 'url(' + this.options.pathToSprite + ')',
+              'background-repeat': 'no-repeat no-repeat',
               'height' : this.rawSpriteHeight + this.options.spriteUnits,
               'width'  : this.rawSpriteWidth + this.options.spriteUnits,
               'display': 'block'
             });
           };
         } else if ( this.isSubmit || this.isInputButton ) {
+          this.$anchor.css({
+            'display' : 'block',
+            //'height' : '',
+            //'width' : ''
+          });
           this.$leftSpan.css({
-            'background-image' : 'url(' + this.options.pathToLeftSprite + ')',
-            'background-repeat' : 'no-repeat'
+            'background-image' : 'url(' + this.options.pathToSprite.left + ')',
+            'background-repeat' : 'no-repeat',
+            'width' : this.rawSpriteWidth.left,
+            'height' : this.rawSpriteHeight.left,
+            'display': 'block',
+            'float' : 'left'
           });
           this.$midSpan.css({
-            'background-image' : 'url(' + this.options.pathToMidSprite + ')',
-            'background-repeat' : 'repeat-x'
+            'background-image' : 'url(' + this.options.pathToSprite.middle + ')',
+            'background-repeat' : 'repeat-x',
+            //'width' : this.rawSpriteWidth.middle,
+            'height' : this.rawSpriteHeight.middle,
+            'display': 'block',
+            'float' : 'left',
+            'vertical-align' : 'middle',
+            'line-height' : this.rawSpriteHeight.middle + this.options.spriteUnits
           });
           this.$rightSpan.css({
-            'background-image' : 'url(' + this.options.pathToRightSprite + ')',
-            'background-repeat' : 'no-repeat' 
+            'background-image' : 'url(' + this.options.pathToSprite.right + ')',
+            'background-repeat' : 'no-repeat',
+            'width' : this.rawSpriteWidth.right,
+            'height' : this.rawSpriteHeight.right,
+            'display': 'block',
+            'float' : 'left'
           });
         };
       } else if ( this.isSelect || this.isButton ) {
+        this.$anchor.css({
+          'display' : 'block',
+          //'height' : '',
+          //'width' : ''
+        });
         this.$leftSpan.css({
-          'background-image' : 'url(' + this.options.pathToLeftSprite + ')',
-          'background-repeat' : 'no-repeat'
+          'background-image' : 'url(' + this.options.pathToSprite.left + ')',
+          'background-repeat' : 'no-repeat',
+          'width' : this.rawSpriteWidth.left,
+          'height' : this.rawSpriteHeight.left,
+          'display': 'block',
+          'float' : 'left'
         });
         this.$midSpan.css({
-          'background-image' : 'url(' + this.options.pathToMidSprite + ')',
-          'background-repeat' : 'repeat-x'
+          'background-image' : 'url(' + this.options.pathToSprite.middle + ')',
+          'background-repeat' : 'repeat-x',
+          //'width' : this.rawSpriteWidth.middle,
+          'height' : this.rawSpriteHeight.middle,
+          'display': 'block',
+          'float' : 'left',
+          'vertical-align' : 'middle',
+          'line-height' : this.rawSpriteHeight.middle + this.options.spriteUnits
         });
         this.$rightSpan.css({
-          'background-image' : 'url(' + this.options.pathToRightSprite + ')',
-          'background-repeat' : 'no-repeat'
+          'background-image' : 'url(' + this.options.pathToSprite.right + ')',
+          'background-repeat' : 'no-repeat',
+          'width' : this.rawSpriteWidth.right,
+          'height' : this.rawSpriteHeight.right,
+          'display': 'block',
+          'float' : 'left'
         });
       };
 
@@ -356,14 +392,15 @@
       this.$element.hide();
     };
 
-    this.computeSprite = function () {
-      this.spriteStates = {};
+    this.computeSprite = function () {this.spriteStates = {};
 
       if ( this.options.spriteOrder && typeof( this.options.spriteOrder ) == 'object' ) {
-        this.spriteOrderLength = _.size( this.options.spriteOrder );
+        this.spriteOrderLength = _.size( this.options.spriteOrder ); // TODO: Don't rely on Underscore
       };
 
       if ( this.isInput ) {
+
+        this.spriteStates = {};
 
         if ( this.isCheckbox || this.isRadio ) {
 
@@ -384,80 +421,140 @@
 
         } else if ( this.isSubmit || this.isInputButton ) {
 
+          this.spriteStates = {
+            left : {},
+            middle : {},
+            right : {}
+          };
+
+          this.rawSpriteHeight = {
+            left : null,
+            middle : null,
+            right : null
+          };
+
+          this.rawSpriteWidth = {
+            left : null,
+            middle : null,
+            right : null
+          };
+
           this.spriteOrderKeys  = _.keys( this.options.spriteOrder );
           this.spriteWidthKeys  = _.keys( this.options.spriteWidth );
           this.spriteHeightKeys = _.keys( this.options.spriteHeight );
-          this.rawSpriteWidth   = {};
-          this.rawSpriteHeight  = {};
 
-          // this.rawSpriteHeight.left
-          // this.rawSpriteHeight.middle
-          // this.rawSpriteHeight.right
+          this.spriteOrderKeysLength = this.spriteOrderKeys.length;
+          this.spriteWidthKeysLength = this.spriteWidthKeys.length;
+          this.spriteHeightKeysLength = this.spriteHeightKeys.length;
 
-          if ( this.options.spriteLeftWidth ) {
-            this.rawSpriteLeftWidth = ( typeof( this.options.spriteLeftWidth ) == 'number' ) ? this.options.spriteLeftWidth : parseInt( this.options.spriteLeftWidth );
+          if ( this.options.spriteWidth.left ) {
+            this.rawSpriteWidth.left = ( typeof( this.options.spriteWidth.left ) == 'number' ) ? this.options.spriteWidth.left : parseInt( this.options.spriteWidth.left );
           };
-          if ( this.options.spriteLeftHeight ) {
-            this.rawSpriteLeftHeight = ( typeof( this.options.spriteLeftHeight ) == 'number' ) ? this.options.spriteLeftHeight : parseInt( this.options.spriteLeftHeight );
+          if ( this.options.spriteHeight.left ) {
+            this.rawSpriteHeight.left = ( typeof( this.options.spriteHeight.left ) == 'number' ) ? this.options.spriteHeight.left : parseInt( this.options.spriteHeight.left );
           };
 
-          if ( this.options.spriteMidWidth ) {
-            this.rawSpriteMidWidth = ( typeof( this.options.spriteMidWidth ) == 'number' ) ? this.options.spriteMidWidth : parseInt( this.options.spriteMidWidth );
+          if ( this.options.spriteWidth.middle ) {
+            this.rawSpriteWidth.middle = ( typeof( this.options.spriteWidth.middle ) == 'number' ) ? this.options.spriteWidth.middle : parseInt( this.options.spriteWidth.middle );
           };
-          if ( this.options.spriteMidHeight ) {
-            this.rawSpriteMidHeight = ( typeof( this.options.spriteMidHeight ) == 'number' ) ? this.options.spriteMidHeight : parseInt( this.options.spriteMidHeight );
-          };
-
-          if ( this.options.spriteRightWidth ) {
-            this.rawSpriteRightWidth = ( typeof( this.options.spriteRightWidth ) == 'number' ) ? this.options.spriteRightWidth : parseInt( this.options.spriteRightWidth );
-          };
-          if ( this.options.spriteRightHeight ) {
-            this.rawSpriteRightHeight = ( typeof( this.options.spriteRightHeight ) == 'number' ) ? this.options.spriteRightHeight : parseInt( this.options.spriteRightHeight );
+          if ( this.options.spriteHeight.middle ) {
+            this.rawSpriteHeight.middle = ( typeof( this.options.spriteHeight.middle ) == 'number' ) ? this.options.spriteHeight.middle : parseInt( this.options.spriteHeight.middle );
           };
 
-          // console.log( this.spriteOrderLength ); // 3
-          // console.log( this.spriteOrderKeys ); // ['left', 'middle', 'right']
-          // console.log( this.spriteOrderKeys[ 0 ] ); // left
-          // console.log( this.options.spriteOrder[ this.spriteOrderKeys[ 0 ] ] ); // ['mouseOut', 'mouseOver']
-          // console.log( this.options.spriteOrder[ this.spriteOrderKeys[ 0 ] ].length ); // 2
-          // console.log( this.options.spriteOrder[ this.spriteOrderKeys[ 0 ] ][ 0 ] ); // mouseOut
-          // console.log('-----');
-          // Goal: this.spriteStates.spanLeft.height
+          if ( this.options.spriteWidth.right ) {
+            this.rawSpriteWidth.right = ( typeof( this.options.spriteWidth.right ) == 'number' ) ? this.options.spriteWidth.right : parseInt( this.options.spriteWidth.right );
+          };
+          if ( this.options.spriteHeight.right ) {
+            this.rawSpriteHeight.right = ( typeof( this.options.spriteHeight.right ) == 'number' ) ? this.options.spriteHeight.right : parseInt( this.options.spriteHeight.right );
+          };
 
           for ( var i = 0; i < this.spriteOrderLength; i++ ) {
-            for (var j = 0; j < this.options.spriteOrder[ this.spriteOrderKeys[ i ] ].length; j++ ) {
+
+            var spanOrder = this.spriteOrderKeys[ i ];
+            var mouseOrder = this.options.spriteOrder[ this.spriteOrderKeys[ i ] ];
+
+            for (var j = 0; j < mouseOrder.length; j++ ) {
+
               if ( this.options.spriteDirection == 'vertical' ) {
-                this.spriteStates[ this.options.spriteOrder[ this.spriteOrderKeys[ i ] ][ j ] ] = '0' + this.options.spriteUnits + ' ' + ((this.options.spriteHeight.left * j) * -1).toString() + this.options.spriteUnits;
+                this.spriteStates[ spanOrder ][ mouseOrder[ j ] ] = '0' + this.options.spriteUnits + ' ' + ((this.rawSpriteHeight[ spanOrder ] * j) * -1).toString() + this.options.spriteUnits;
               } else if ( this.options.spriteDirection == 'horizontal' ) {
-                this.spriteStates[ this.options.spriteOrder[ this.spriteOrderKeys[ i ] ][ j ] ] = ((this.options.spriteWidth.left * j) * -1).toString() + this.options.spriteUnits + ' 0' + this.options.spriteUnits;
+                this.spriteStates[ spanOrder ][ mouseOrder[ j ] ] = ((this.rawSpriteWidth[ spanOrder ] * j) * -1).toString() + this.options.spriteUnits + ' 0' + this.options.spriteUnits;
               };
+
             };
+
           };
 
         };
+
       } else if ( this.isSelect || this.isButton ) {
-        if ( this.options.spriteLeftWidth ) {
-          this.rawSpriteLeftWidth = ( typeof( this.options.spriteLeftWidth ) == 'number' ) ? this.options.spriteLeftWidth : parseInt( this.options.spriteLeftWidth );
-        };
-        if ( this.options.spriteLeftHeight ) {
-          this.rawSpriteLeftHeight = ( typeof( this.options.spriteLeftHeight ) == 'number' ) ? this.options.spriteLeftHeight : parseInt( this.options.spriteLeftHeight );
+
+        this.spriteStates = {
+          left : {},
+          middle : {},
+          right : {}
         };
 
-        if ( this.options.spriteMidWidth ) {
-          this.rawSpriteMidWidth = ( typeof( this.options.spriteMidWidth ) == 'number' ) ? this.options.spriteMidWidth : parseInt( this.options.spriteMidWidth );
-        };
-        if ( this.options.spriteMidHeight ) {
-          this.rawSpriteMidHeight = ( typeof( this.options.spriteMidHeight ) == 'number' ) ? this.options.spriteMidHeight : parseInt( this.options.spriteMidHeight );
+        this.rawSpriteHeight = {
+          left : null,
+          middle : null,
+          right : null
         };
 
-        if ( this.options.spriteRightWidth ) {
-          this.rawSpriteRightWidth = ( typeof( this.options.spriteRightWidth ) == 'number' ) ? this.options.spriteRightWidth : parseInt( this.options.spriteRightWidth );
+        this.rawSpriteWidth = {
+          left : null,
+          middle : null,
+          right : null
         };
-        if ( this.options.spriteRightHeight ) {
-          this.rawSpriteRightHeight = ( typeof( this.options.spriteRightHeight ) == 'number' ) ? this.options.spriteRightHeight : parseInt( this.options.spriteRightHeight );
+
+        this.spriteOrderKeys  = _.keys( this.options.spriteOrder );
+        this.spriteWidthKeys  = _.keys( this.options.spriteWidth );
+        this.spriteHeightKeys = _.keys( this.options.spriteHeight );
+
+        this.spriteOrderKeysLength = this.spriteOrderKeys.length;
+        this.spriteWidthKeysLength = this.spriteWidthKeys.length;
+        this.spriteHeightKeysLength = this.spriteHeightKeys.length;
+
+        if ( this.options.spriteWidth.left ) {
+          this.rawSpriteWidth.left = ( typeof( this.options.spriteWidth.left ) == 'number' ) ? this.options.spriteWidth.left : parseInt( this.options.spriteWidth.left );
         };
+        if ( this.options.spriteHeight.left ) {
+          this.rawSpriteHeight.left = ( typeof( this.options.spriteHeight.left ) == 'number' ) ? this.options.spriteHeight.left : parseInt( this.options.spriteHeight.left );
+        };
+
+        if ( this.options.spriteWidth.middle ) {
+          this.rawSpriteWidth.middle = ( typeof( this.options.spriteWidth.middle ) == 'number' ) ? this.options.spriteWidth.middle : parseInt( this.options.spriteWidth.middle );
+        };
+        if ( this.options.spriteHeight.middle ) {
+          this.rawSpriteHeight.middle = ( typeof( this.options.spriteHeight.middle ) == 'number' ) ? this.options.spriteHeight.middle : parseInt( this.options.spriteHeight.middle );
+        };
+
+        if ( this.options.spriteWidth.right ) {
+          this.rawSpriteWidth.right = ( typeof( this.options.spriteWidth.right ) == 'number' ) ? this.options.spriteWidth.right : parseInt( this.options.spriteWidth.right );
+        };
+        if ( this.options.spriteHeight.right ) {
+          this.rawSpriteHeight.right = ( typeof( this.options.spriteHeight.right ) == 'number' ) ? this.options.spriteHeight.right : parseInt( this.options.spriteHeight.right );
+        };
+
+        for ( var i = 0; i < this.spriteOrderLength; i++ ) {
+
+          var spanOrder = this.spriteOrderKeys[ i ];
+          var mouseOrder = this.options.spriteOrder[ this.spriteOrderKeys[ i ] ];
+
+          for (var j = 0; j < mouseOrder.length; j++ ) {
+
+            if ( this.options.spriteDirection == 'vertical' ) {
+              this.spriteStates[ spanOrder ][ mouseOrder[ j ] ] = '0' + this.options.spriteUnits + ' ' + ((this.rawSpriteHeight[ spanOrder ] * j) * -1).toString() + this.options.spriteUnits;
+            } else if ( this.options.spriteDirection == 'horizontal' ) {
+              this.spriteStates[ spanOrder ][ mouseOrder[ j ] ] = ((this.rawSpriteWidth[ spanOrder ] * j) * -1).toString() + this.options.spriteUnits + ' 0' + this.options.spriteUnits;
+            };
+
+          };
+
+        };
+
       };
-      console.log( this.spriteStates );
+
     };
 
     this.customBeforeClick = function ( event ) {
@@ -601,10 +698,10 @@
     this.build = function () {
       this.hideElement();
       this.computeSprite();
-      //this.injectWrapper();
-      //this.injectAnchor();
-      //this.injectLabel();
-      // this.bindEvents();
+      this.injectWrapper();
+      this.injectAnchor();
+      this.injectLabel();
+      this.bindEvents();
     };
 
     this.build();
