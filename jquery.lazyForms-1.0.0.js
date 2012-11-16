@@ -5,14 +5,14 @@
           spriteWidth          : 20,
           spriteHeight         : 20,
           spriteUnits          : 'px',
-          spriteOrder          : ['uncheckedMouseOut', 'uncheckedMouseOver', 'checkedMouseOut', 'checkedMouseOver'],
+          spriteOrder          : ['uncheckedMouseLeave', 'uncheckedMouseEnter', 'uncheckedMouseDown', 'checkedMouseLeave', 'checkedMouseEnter', 'checkedMouseDown'],
           spriteDirection      : 'vertical',
           pathToSprite         : 'images/checkbox_vertical.png',
           labelToThe           : 'right',
-          htmlWrapperTag       : 'div',
-          htmlWrapperClass     : 'lazy-checkbox-wrapper',
-          htmlAnchorClass      : 'lazy-checkbox-anchor',
-          htmlLabelClass       : 'lazy-checkbox-label',
+          wrapperTag           : 'div',
+          wrapperClass         : 'lazy-checkbox-wrapper',
+          anchorClass          : 'lazy-checkbox-anchor',
+          labelClass           : 'lazy-checkbox-label',
           onBeforeClick        : false,
           onAfterClick         : false,
           onBeforeMouseOver    : false,
@@ -24,14 +24,14 @@
           spriteWidth          : 20,
           spriteHeight         : 20,
           spriteUnits          : 'px',
-          spriteOrder          : ['uncheckedMouseOut', 'uncheckedMouseOver', 'checkedMouseOut', 'checkedMouseOver'],
+          spriteOrder          : ['uncheckedMouseLeave', 'uncheckedMouseEnter', 'uncheckedMouseDown', 'checkedMouseLeave', 'checkedMouseEnter', 'checkedMouseDown'],
           spriteDirection      : 'vertical',
           pathToSprite         : 'images/radio_vertical.png',
           labelToThe           : 'right',
-          htmlWrapperTag       : 'div',
-          htmlWrapperClass     : 'lazy-radio-wrapper',
-          htmlAnchorClass      : 'lazy-radio-anchor',
-          htmlLabelClass       : 'lazy-radio-label',
+          wrapperTag           : 'div',
+          wrapperClass         : 'lazy-radio-wrapper',
+          anchorClass          : 'lazy-radio-anchor',
+          labelClass           : 'lazy-radio-label',
           onBeforeClick        : false,
           onAfterClick         : false,
           onBeforeMouseOver    : false,
@@ -40,32 +40,32 @@
           onAfterMouseOut      : false
         },
         button : {
-          spriteWidth          : {
+          spriteWidth : {
             left   : 5,
             middle : 1,
             right  : 5
           },
-          spriteHeight         : {
+          spriteHeight : {
             left   : 30,
             middle : 30,
             right  : 30
           },
           spriteUnits          : 'px',
           spriteDirection      : 'vertical',
-          pathToSprite         : {
+          pathToSprite : {
             left   : 'images/button_left_vertical.png',
             middle : 'images/button_mid_vertical.png',
             right  : 'images/button_right_vertical.png'
           },
-          spriteOrder          : {
-            left   : ['mouseOut', 'mouseOver'],
-            middle : ['mouseOut', 'mouseOver'],
-            right  : ['mouseOut', 'mouseOver']
+          spriteOrder : {
+            left   : ['mouseLeave', 'mouseEnter', 'mouseDown'],
+            middle : ['mouseLeave', 'mouseEnter', 'mouseDown'],
+            right  : ['mouseLeave', 'mouseEnter', 'mouseDown']
           },
-          htmlWrapperTag       : 'div',
-          htmlWrapperClass     : 'lazy-button-wrapper',
-          htmlAnchorClass      : 'lazy-button-anchor',
-          htmlSpanClass        : 'lazy-button-span',
+          wrapperTag           : 'div',
+          wrapperClass         : 'lazy-button-wrapper',
+          anchorClass          : 'lazy-button-anchor',
+          spanClass            : 'lazy-button-span',
           onBeforeClick        : false,
           onAfterClick         : false,
           onBeforeMouseOver    : false,
@@ -74,12 +74,12 @@
           onAfterMouseOut      : false
         },
         select : {
-          spriteWidth          : {
+          spriteWidth : {
             left   : 5,
             middle : 1,
             right  : 29
           },
-          spriteHeight         : {
+          spriteHeight : {
             left   : 30,
             middle : 30,
             right  : 30
@@ -91,15 +91,16 @@
             middle : 'images/select_mid_vertical.png',
             right  : 'images/select_right_vertical.png'
           },
-          spriteOrder          : {
-            left   : ['mouseOut', 'mouseOver'],
-            middle : ['mouseOut', 'mouseOver'],
-            right  : ['mouseOut', 'mouseOver']
+          spriteOrder : {
+            left   : ['mouseLeave', 'mouseEnter', 'mouseDown'],
+            middle : ['mouseLeave', 'mouseEnter', 'mouseDown'],
+            right  : ['mouseLeave', 'mouseEnter', 'mouseDown']
           },
-          htmlWrapperTag       : 'div',
-          htmlWrapperClass     : 'lazy-select-wrapper',
-          htmlAnchorClass      : 'lazy-select-anchor',
-          htmlSpanClass        : 'lazy-select-span',
+          wrapperTag           : 'div',
+          wrapperClass         : 'lazy-select-wrapper',
+          anchorClass          : 'lazy-select-anchor',
+          spanClass            : 'lazy-select-span',
+          optionsWrapperClass  : 'lazy-select-options-wrapper',
           onBeforeClick        : false,
           onAfterClick         : false,
           onBeforeMouseOver    : false,
@@ -179,8 +180,8 @@
     };
 
     this.injectWrapper = function () {
-      if ( this.options.htmlWrapperTag && typeof( this.options.htmlWrapperTag ) == 'string' ) {
-        this.rawHtmlWrapperTag = this.options.htmlWrapperTag.replace(/[^a-zA-Z]/g, '').toLowerCase();
+      if ( this.options.wrapperTag && typeof( this.options.wrapperTag ) == 'string' ) {
+        this.rawHtmlWrapperTag = this.options.wrapperTag.replace(/[^a-zA-Z]/g, '').toLowerCase();
         this.$element.wrap( '<' + this.rawHtmlWrapperTag + '/>' );
         this.setWrapper();
         this.setWrapperClass();
@@ -188,8 +189,8 @@
     };
 
     this.setWrapperClass = function () {
-      if ( this.options.htmlWrapperClass && typeof(this.options.htmlWrapperClass) == 'string' ) {
-        this.$wrapper.addClass( this.options.htmlWrapperClass );
+      if ( this.options.wrapperClass && typeof(this.options.wrapperClass) == 'string' ) {
+        this.$wrapper.addClass( this.options.wrapperClass );
       };
     };
 
@@ -243,8 +244,8 @@
     this.setLabelClass = function () {
       if ( this.isInput ) {
         if ( this.isCheckbox || this.isRadio ) {
-          if ( this.options.htmlLabelClass && typeof( this.options.htmlLabelClass ) == 'string' ) {
-            this.$label.addClass( this.options.htmlLabelClass );
+          if ( this.options.labelClass && typeof( this.options.labelClass ) == 'string' ) {
+            this.$label.addClass( this.options.labelClass );
           };
         };
       };
@@ -263,8 +264,8 @@
     };
 
     this.setAnchorClass = function () {
-      if ( this.options.htmlAnchorClass && typeof(this.options.htmlAnchorClass) == 'string' ) {
-        this.$anchor.addClass( this.options.htmlAnchorClass );
+      if ( this.options.anchorClass && typeof(this.options.anchorClass) == 'string' ) {
+        this.$anchor.addClass( this.options.anchorClass );
       };
     };
 
@@ -380,11 +381,11 @@
     };
 
     this.setSpanClass = function () {
-      if ( this.options.htmlSpanClass && typeof(this.options.htmlSpanClass) == 'string' ) {
-        this.$spans.addClass( this.options.htmlSpanClass );
-        this.$leftSpan.addClass( this.options.htmlSpanClass + '-left' );
-        this.$midSpan.addClass( this.options.htmlSpanClass + '-mid' );
-        this.$rightSpan.addClass( this.options.htmlSpanClass + '-right' );
+      if ( this.options.spanClass && typeof(this.options.spanClass) == 'string' ) {
+        this.$spans.addClass( this.options.spanClass );
+        this.$leftSpan.addClass( this.options.spanClass + '-left' );
+        this.$midSpan.addClass( this.options.spanClass + '-mid' );
+        this.$rightSpan.addClass( this.options.spanClass + '-right' );
       };
     };
 
@@ -557,37 +558,49 @@
 
     };
 
-    this.customBeforeClick = function ( event ) {
-      if ( this.options.onBeforeClick ) {
-        this.options.onBeforeClick( this, event );
+    this.customBeforeMouseDown = function ( event ) {
+      if ( this.options.onBeforeMouseDown ) {
+        this.options.onBeforeMouseDown( this, event );
       };
     };
 
-    this.customAfterClick = function ( event ) {
-      if ( this.options.onAfterClick ) {
-        this.options.onAfterClick( this, event );
+    this.customAfterMouseDown = function ( event ) {
+      if ( this.options.onAfterMouseDown ) {
+        this.options.onAfterMouseDown( this, event );
       };
     };
 
-    this.customBeforeMouseOver = function ( event ) {
+    this.customBeforeMouseUp = function ( event ) {
+      if ( this.options.onBeforeMouseUp ) {
+        this.options.onBeforeMouseUp( this, event );
+      };
+    };
+
+    this.customAfterMouseUp = function ( event ) {
+      if ( this.options.onAfterMouseUp ) {
+        this.options.onAfterMouseUp( this, event );
+      };
+    };
+
+    this.customBeforeMouseEnter = function ( event ) {
       if ( this.options.onBeforeMouseOver ) {
         this.options.onBeforeMouseOver( this, event );
       };
     };
 
-    this.customAfterMouseOver = function ( event ) {
+    this.customAfterMouseEnter = function ( event ) {
       if ( this.options.onAfterMouseOver ) {
         this.options.onAfterMouseOver( this, event );
       };
     };
 
-    this.customBeforeMouseOut = function ( event ) {
+    this.customBeforeMouseLeave = function ( event ) {
       if ( this.options.onBeforeMouseOut ) {
         this.options.onBeforeMouseOut( this, event );
       };
     };
 
-    this.customAfterMouseOut = function ( event ) {
+    this.customAfterMouseLeave = function ( event ) {
       if ( this.options.onAfterMouseOut ) {
         this.options.onAfterMouseOut( this, event );
       };
@@ -596,130 +609,219 @@
     this.resetGroup = function () {
       $( this.tag + '[type="' + this.attrType + '"][name="' + this.attrName + '"]' ).attr( 'checked', false );
       $( this.tag + '[type="' + this.attrType + '"][name="' + this.attrName + '"]' ).siblings( this.$label ).css({
-        'background-position' : this.spriteStates.uncheckedMouseOut
+        'background-position' : this.spriteStates.uncheckedMouseLeave
       });
     };
 
-    this.radioClick = function ( event ) {
-      this.resetGroup();
-      this.$element.attr( 'checked', true );
-      this.$anchor.css({
-        'background-position' : this.spriteStates.checkedMouseOut
+    this.toggleOptions = function () {
+      this.$optionsWrapper.toggle();
+    };
+
+    this.injectOptionsWrapper = function () {
+      if ( this.isSelect ) {
+        this.$wrapper.append('<div/>');
+        this.setOptionsWrapper();
+        this.toggleOptions();
+        this.setOptionsWrapperClass();
+        this.injectOptionsList();
+        this.positionOptions();
+        //this.setOptionsWrapperClass();
+      };
+    };
+
+    this.injectOptionsList = function () {
+      this.$optionsWrapper.append('<ul/>');
+      this.setOptionsList();
+      this.injectOptions();
+      //this.setOptionsListClass();
+    };
+
+    this.injectOptions = function () {
+      this.$realOptions = this.$wrapper.children('select').children('option');
+      var self = this;
+      this.$realOptions.each( function() {
+        self.$optionsList.append('<li>' + $(this).html() + '</li>');
+      });      
+      this.setOptions();
+    };
+
+    this.setOptionsWrapperClass = function () {
+      this.$optionsWrapper.addClass( this.options.optionsWrapperClass );
+    };
+
+    this.setOptionsListClass = function () {
+      this.$optionsList.addClass();
+    };
+
+    this.setOptionsWrapper = function () {
+      this.$optionsWrapper = this.$wrapper.children('div');
+    };
+
+    this.setOptionsList = function () {
+      this.$optionsList = this.$optionsWrapper.children('ul');
+    };
+
+    this.setOptions = function () {
+      this.$options = this.$optionsList.children('li');
+    };
+
+    this.positionOptions = function () {
+      console.log( this.$wrapper.position().top, this.$wrapper.height() );
+      this.$optionsWrapper.css({
+        'position' : 'absolute',
+        'left' : this.$wrapper.position().left,
+        'top' : this.$wrapper.position().top + this.$wrapper.height()
       });
     };
 
-    this.checkboxClickOn = function ( event ) {
-      event.preventDefault();
-      this.customBeforeClick( event );
-      this.$element.attr( 'checked', !this.$element.attr('checked') );
-      this.$anchor.css({
-        'background-position' : this.spriteStates.checkedMouseOut
-      });
-      this.customAfterClick( event );
-    };
-
-    this.checkboxClickOff = function ( event ) {
-      event.preventDefault();
-      this.customBeforeClick( event );
-      this.$element.attr( 'checked', !this.$element.attr('checked') );
-      this.$anchor.css({
-        'background-position' : this.spriteStates.uncheckedMouseOut
-      });
-      this.customAfterClick( event );
-    };
-
-    this.mouseOut = function ( event ) {
-      this.customBeforeMouseOut( event );
+    this.mouseLeave = function ( event ) {
+      this.customBeforeMouseLeave( event );
       if ( this.isCheckbox || this.isRadio ) {
-        if ( this.$element.attr('checked') == 'checked' ) {
+        if ( this.$element.attr('checked') == 'checked' || this.$element.attr('checked') == true ) {
           this.$anchor.css({
-            'background-position' : this.spriteStates.checkedMouseOut
+            'background-position' : this.spriteStates.checkedMouseLeave
           });
         } else {
           this.$anchor.css({
-            'background-position' : this.spriteStates.uncheckedMouseOut
+            'background-position' : this.spriteStates.uncheckedMouseLeave
           });
         };
       } else if ( this.isSelect || this.isButton || this.isInputButton || this.isSubmit ) {
         this.$leftSpan.css({
-          'background-position' : this.spriteStates.left.mouseOut
+          'background-position' : this.spriteStates.left.mouseLeave
         });
         this.$midSpan.css({
-          'background-position' : this.spriteStates.middle.mouseOut
+          'background-position' : this.spriteStates.middle.mouseLeave
         });
         this.$rightSpan.css({
-          'background-position' : this.spriteStates.right.mouseOut
+          'background-position' : this.spriteStates.right.mouseLeave
         });
       };
-      this.customAfterMouseOut( event );
+      this.customAfterMouseLeave( event );
     };
 
-    this.mouseOver = function ( event ) {
-      this.customBeforeMouseOver( event );
+    this.mouseEnter = function ( event ) {
+      this.customBeforeMouseEnter( event );
       if ( this.isCheckbox || this.isRadio ) {
-        if ( this.$element.attr('checked') == 'checked' ) {
+        if ( this.$element.attr('checked') == 'checked' || this.$element.attr('checked') == true ) {
           this.$anchor.css({
-            'background-position' : this.spriteStates.checkedMouseOver
+            'background-position' : this.spriteStates.checkedMouseEnter
           });
         } else {
           this.$anchor.css({
-            'background-position' : this.spriteStates.uncheckedMouseOver
+            'background-position' : this.spriteStates.uncheckedMouseEnter
           });
         };
       } else if ( this.isSelect || this.isButton || this.isInputButton || this.isSubmit ) {
         this.$leftSpan.css({
-          'background-position' : this.spriteStates.left.mouseOver
+          'background-position' : this.spriteStates.left.mouseEnter
         });
         this.$midSpan.css({
-          'background-position' : this.spriteStates.middle.mouseOver
+          'background-position' : this.spriteStates.middle.mouseEnter
         });
         this.$rightSpan.css({
-          'background-position' : this.spriteStates.right.mouseOver
+          'background-position' : this.spriteStates.right.mouseEnter
         });
       };
-      this.customAfterMouseOver( event );
+      this.customAfterMouseEnter( event );
+    };
+
+    this.mouseDown = function ( event ) {
+      event.preventDefault();
+      this.customBeforeMouseDown( event );
+      if ( this.isCheckbox || this.isRadio ) {
+        if ( this.$element.attr('checked') == 'checked' || this.$element.attr('checked') == true ) {
+          this.$anchor.css({
+            'background-position' : this.spriteStates.checkedMouseDown
+          });
+        } else {
+          this.$anchor.css({
+            'background-position' : this.spriteStates.uncheckedMouseDown
+          });
+        };
+      } else if ( this.isSelect || this.isButton || this.isInputButton || this.isSubmit ) {
+        this.$leftSpan.css({
+          'background-position' : this.spriteStates.left.mouseDown
+        });
+        this.$midSpan.css({
+          'background-position' : this.spriteStates.middle.mouseDown
+        });
+        this.$rightSpan.css({
+          'background-position' : this.spriteStates.right.mouseDown
+        });
+      };
+      this.customAfterMouseDown( event );
+    };
+
+    this.mouseUp = function ( event ) {
+      event.preventDefault();
+      this.customBeforeMouseUp( event );
+      if ( this.isCheckbox ) {
+        this.$element.attr( 'checked', !this.$element.attr('checked') );
+        if ( this.$element.attr('checked') == 'checked' ) {
+          this.$anchor.css({
+            'background-position' : this.spriteStates.checkedMouseEnter
+          });
+        } else {
+          this.$anchor.css({
+            'background-position' : this.spriteStates.uncheckedMouseEnter
+          });
+        };
+      } else if ( this.isRadio ) {
+        this.resetGroup();
+        this.$element.attr( 'checked', true );
+        if ( this.$element.attr('checked') == 'checked' || this.$element.attr('checked') == true ) {
+          this.$anchor.css({
+            'background-position' : this.spriteStates.checkedMouseEnter
+          });
+        } else {
+          this.$anchor.css({
+            'background-position' : this.spriteStates.uncheckedMouseEnter
+          });
+        };
+      } else if ( this.isSelect ) {
+        this.toggleOptions();
+        this.$leftSpan.css({
+          'background-position' : this.spriteStates.left.mouseEnter
+        });
+        this.$midSpan.css({
+          'background-position' : this.spriteStates.middle.mouseEnter
+        });
+        this.$rightSpan.css({
+          'background-position' : this.spriteStates.right.mouseEnter
+        });
+      } else if ( this.isButton || this.isInputButton || this.isSubmit ) {
+        this.$leftSpan.css({
+          'background-position' : this.spriteStates.left.mouseEnter
+        });
+        this.$midSpan.css({
+          'background-position' : this.spriteStates.middle.mouseEnter
+        });
+        this.$rightSpan.css({
+          'background-position' : this.spriteStates.right.mouseEnter
+        });
+      };
+      this.customAfterMouseUp( event );
     };
 
     this.bindEvents = function () {
       var self = this;
 
-      if ( this.isCheckbox ) {
-        this.$wrapper.toggle( function ( event ) {
-          self.checkboxClickOn( event );
-        }, function ( event ) {
-          self.checkboxClickOff( event );
-        });
-      } else if ( this.isRadio ) {
-        this.$wrapper.bind( 'click', function (event) {
-          self.radioClick( event );
-        });
-      } else if ( this.isSelect ) {
-        // Do stuff
-      } else if ( this.isButton || this.isInputButton ) {
-        // Do other stuff
-      };
-
-      this.$wrapper.hover( function ( event ) {
-        self.mouseOver( event );
-      }, function ( event ) {
-        self.mouseOut( event );
+      this.$wrapper.bind( 'mousedown', function (event) {
+        self.mouseDown( event );
       });
 
-    };
+      this.$wrapper.bind( 'mouseup', function (event) {
+        self.mouseUp( event );
+      });
 
-    this.buildCheckbox = function () {
+      this.$wrapper.bind( 'mouseenter', function (event) {
+        self.mouseEnter( event );
+      });
 
-    };
-
-    this.buildRadio = function () {
-
-    };
-
-    this.buildSelect = function () {
-
-    };
-
-    this.buildButton = function () {
+      this.$wrapper.bind( 'mouseleave', function (event) {
+        self.mouseLeave( event );
+      });
 
     };
 
@@ -727,6 +829,7 @@
       this.hideElement();
       this.computeSprite();
       this.injectWrapper();
+      this.injectOptionsWrapper();
       this.injectAnchor();
       this.injectLabel();
       this.bindEvents();
