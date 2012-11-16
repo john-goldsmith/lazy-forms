@@ -31,6 +31,10 @@
         color: #000;
         text-shadow: 1px 1px #d9d9d9;
       }
+      div {
+        padding: 0;
+        margin: 0;
+      }
       div.lazy-checkbox-wrapper, div.lazy-radio-wrapper, div.lazy-select-wrapper, div.lazy-button-wrapper {
         float: left;
         display: block;
@@ -48,6 +52,30 @@
         -moz-user-select: none;
         -ms-user-select: none;
         user-select: none;
+      }
+      div.lazy-select-options-wrapper {
+        /*
+        max-height: 100px;
+        overflow: auto;
+        */
+        border: 1px solid #9c9c9c;
+        z-index' : 100;
+        background-color : #fff;
+        border-radius : 4px;
+        margin: 2px 0 0 0;
+      }
+      div.lazy-select-options-wrapper ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+      }
+      div.lazy-select-options-wrapper ul li {
+        padding: 5px 10px;
+        margin: 0; 
+      }
+      div.lazy-select-options-wrapper ul li:hover {
+        cursor: pointer;
+        background-color: #f2f2f2;
       }
     </style>
 

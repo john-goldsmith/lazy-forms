@@ -185,6 +185,7 @@
         this.$element.wrap( '<' + this.rawHtmlWrapperTag + '/>' );
         this.setWrapper();
         this.setWrapperClass();
+        this.styleWrapper();
       };
     };
 
@@ -196,11 +197,13 @@
 
     this.setWrapper = function () {
       this.$wrapper = this.$element.parent( this.rawHtmlWrapperTag );
+      this.wrapper = this.$wrapper.get();
     };
 
     this.styleWrapper = function () {
       this.$wrapper.css({
-        
+        //'height' : this.$wrapper.height(),
+        //'width' : this.$wrapper.width()
       });
     };
 
@@ -666,11 +669,11 @@
     };
 
     this.positionOptions = function () {
-      console.log( this.$wrapper.position().top, this.$wrapper.height() );
       this.$optionsWrapper.css({
         'position' : 'absolute',
         'left' : this.$wrapper.position().left,
-        'top' : this.$wrapper.position().top + this.$wrapper.height()
+        'top' : this.$wrapper.position().top + this.$wrapper.get(0).offsetHeight
+        //'min-width' : 
       });
     };
 
@@ -829,8 +832,8 @@
       this.hideElement();
       this.computeSprite();
       this.injectWrapper();
-      this.injectOptionsWrapper();
       this.injectAnchor();
+      this.injectOptionsWrapper();
       this.injectLabel();
       this.bindEvents();
     };
