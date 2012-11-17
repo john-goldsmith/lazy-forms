@@ -4,44 +4,22 @@
 	<head>
 
 		<script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="http://underscorejs.org/underscore-min.js"></script>
 		<script src="../jquery.lazyForms-1.0.0.js"></script>
 		<script>
       $(document).ready(function(){
         
-        $('input:checkbox, input:radio').lazyForms({
-          spriteWidth              : 20,
-          spriteHeight             : 20,
-          spriteUnits              : 'px',
-          spriteOrder              : ['uncheckedMouseOut', 'uncheckedMouseOver', 'checkedMouseOut', 'checkedMouseOver'],
-          spriteDirection          : 'vertical',
-          pathToCheckboxSprite     : 'images/checkbox_vertical.png',
-          pathToRadioSprite        : 'images/radio_vertical.png',
-          labelToThe               : 'right',
-          htmlWrapperTag           : 'div',
-          htmlWrapperClass         : 'my-wrapper-class',
-          htmlAnchorClass          : 'my-anchor-class',
-          htmlLabelClass           : 'my-label-class',
-          onBeforeClick            : function ( element, event ) {
-            //console.log('onBeforeClick');
-          },
-          onAfterClick             : function ( element, event ) {
-            //console.log('onAfterClick');
-          },
-          onBeforeMouseOver        : function ( element, event ) {
-            //console.log('onBeforeMouseOver');
-          },
-          onAfterMouseOver         : function ( element, event ) {
-            //console.log('onAfterMouseOver');
-          },
-          onBeforeMouseOut         : function ( element, event ) {
-            //console.log('onBeforeMouseOut');
-          },
-          onAfterMouseOut          : function ( element, event ) {
-            //console.log('onAfterMouseOut');
-          }
-        });
+        $('input:checkbox, input:radio, input:submit, input:button, select, button').lazyForms();
 
-      }); // End document.ready
+        // $('a#submit').click( function ( event ) {
+        //   event.preventDefault();
+        //   var $checked = $('input:checked'); // This accounts for both checkboxes and radio buttons
+        //   for (var i = 0; i < $checked.length; i++) {
+        //     console.log( $checked[i].value );
+        //   };
+        // });
+
+      });
     </script>
 
     <style>
@@ -49,13 +27,24 @@
         font-family: Arial, sans-serif;
         background-color: #e5e5e5;
       }
-      div.my-wrapper-class {
+      a {
+        color: #000;
+        text-shadow: 1px 1px #d9d9d9;
+      }
+      div {
+        padding: 0;
+        margin: 0;
+      }
+      div.lazy-checkbox-wrapper, div.lazy-radio-wrapper, div.lazy-select-wrapper, div.lazy-button-wrapper {
         float: left;
         display: block;
         clear: both;
         margin: 0 0 5px 0;
       }
-      div.my-wrapper-class label {
+      span.lazy-button-span-mid, span.lazy-select-span-mid {
+        padding: 0 10px;
+      }
+      div.lazy-checkbox-wrapper label, div.lazy-radio-wrapper label, {
         margin: 0 0 0 5px;
         -webkit-touch-callout: none;
         -webkit-user-select: none;
@@ -64,19 +53,64 @@
         -ms-user-select: none;
         user-select: none;
       }
+      div.lazy-select-options-wrapper {
+        /*
+        max-height: 100px;
+        overflow: auto;
+        */
+        border: 1px solid #9c9c9c;
+        z-index' : 100;
+        background-color : #fff;
+        border-radius : 4px;
+        margin: 2px 0 0 0;
+      }
+      div.lazy-select-options-wrapper ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+      }
+      div.lazy-select-options-wrapper ul li {
+        padding: 5px 10px;
+        margin: 0; 
+      }
+      div.lazy-select-options-wrapper ul li:hover {
+        cursor: pointer;
+        background-color: #f2f2f2;
+      }
     </style>
 
 	</head>
 
 	<body>
 
-		<input name="my-checkboxes[]" data-label="Checkbox 1" type="checkbox" value="cb-123" />
-    <input name="my-checkboxes[]" data-label="Checkbox 2" type="checkbox" value="cb-abc" />
-    <input name="my-checkboxes[]" data-label="Checkbox 3" type="checkbox" value="cb-true" />
+    <form action="" method="post">
 
-    <input name="my-radios[]" data-label="Radio 1" type="radio" value="r-123" />
-    <input name="my-radios[]" data-label="Radio 2" type="radio" value="r-abc" />
-    <input name="my-radios[]" data-label="Radio 3" type="radio" value="r-true" />
+      <!--<a href="#">Test</a>-->
+
+  		<input name="my-checkboxes[]" data-label="Checkbox 1" type="checkbox" value="cb-123" />
+      <input name="my-checkboxes[]" data-label="Checkbox 2" type="checkbox" value="cb-abc" />
+      <input name="my-checkboxes[]" data-label="Checkbox 3" type="checkbox" value="cb-true" />
+
+      <input name="my-radios-1[]" data-label="Radio 1" type="radio" value="r-123" />
+      <input name="my-radios-1[]" data-label="Radio 2" type="radio" value="r-abc" />
+      <input name="my-radios-1[]" data-label="Radio 3" type="radio" value="r-true" />
+
+      <input name="my-radios-2[]" data-label="Radio A" type="radio" value="r-123" />
+      <input name="my-radios-2[]" data-label="Radio B" type="radio" value="r-abc" />
+      <input name="my-radios-2[]" data-label="Radio C" type="radio" value="r-true" />
+
+      <select name="my-select">
+        <option value="">- Select -</option>
+        <option value="o-123">Option 1</option>
+        <option value="o-abc">Option 2</option>
+        <option value="o-true">Option 3</option>
+      </select>
+
+      <input name="my-button" type="button" id="button" value="Input Button" />
+      <input name="my-submit" type="submit" id="submit" value="Submit Button" />
+    </form>
+
+    <button>Button</button>
 
 	</body>
 
