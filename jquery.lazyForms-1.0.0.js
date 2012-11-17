@@ -312,7 +312,6 @@
       };
     };
 
-
     /**
      * Wrapper method to build the anchor
      */
