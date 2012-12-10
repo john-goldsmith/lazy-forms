@@ -536,9 +536,15 @@
     this.computeSprite = function () {
 
       this.spriteStates = {};
+      var count = 0;
 
       if ( this.options.spriteOrder && typeof( this.options.spriteOrder ) == 'object' ) {
-        this.spriteOrderLength = _.size( this.options.spriteOrder ); // TODO: Don't rely on Underscore
+        for (key in this.options.spriteOrder) {
+          if ( this.options.spriteOrder.hasOwnProperty(key) ) {
+            count++;
+          };
+        };
+        this.spriteOrderLength = count;
       };
 
 
@@ -581,9 +587,21 @@
           right : null
         };
 
-        this.spriteOrderKeys  = _.keys( this.options.spriteOrder );
-        this.spriteWidthKeys  = _.keys( this.options.spriteWidth );
-        this.spriteHeightKeys = _.keys( this.options.spriteHeight );
+        this.spriteOrderKeys = this.spriteWidthKeys = this.spriteHeightKeys = [];
+
+        var that = this;
+
+        $.each( this.options.spriteOrder, function (key, value) {
+          that.spriteOrderKeys.push(key);
+        });
+
+        $.each( this.options.spriteWidth, function (key, value) {
+          that.spriteWidthKeys.push(key);
+        });
+
+        $.each( this.options.spriteHeight, function (key, value) {
+          that.spriteHeightKeys.push(key);
+        });
 
         this.spriteOrderKeysLength = this.spriteOrderKeys.length;
         this.spriteWidthKeysLength = this.spriteWidthKeys.length;
