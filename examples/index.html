@@ -1,0 +1,225 @@
+<!doctype html>
+<html>
+
+  <head>
+    <title>Lazy Forms &mdash; A jQuery plugin to visually customize native HTML form controls</title>
+    <link rel="stylesheet" href="stylesheets/lazy_forms.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+  </head>
+
+  <body>
+
+    <div class="jumbotron">
+      <div class="container">
+        <h1>Lazy Forms</h1>
+        <p>A jQuery plugin to visually customize native HTML form controls</p>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <div class="row">
+
+        <div class="col-md-9">
+
+          <!-- Checkboxes -->
+          <div class="row" id="checkboxes">
+            <div class="col-xs-12">
+              <h2>Checkboxes</h2>
+              <ul class="nav nav-tabs">
+                <li role="presentation" class="active">
+                  <a href="#checkboxes-output" aria-controls="checkboxes-output" role="tab" data-toggle="tab">Output</a>
+                </li>
+                <li role="presentation">
+                  <a href="#checkboxes-code" aria-controls="checkboxes-code" role="tab" data-toggle="tab">Code</a>
+                </li>
+              </ul>
+              <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="checkboxes-output">
+                  <form action="" method="post">
+                    <input name="my-checkboxes[]" data-label="Checkbox 1" type="checkbox" value="cb-123" />
+                    <input name="my-checkboxes[]" data-label="Checkbox 2" type="checkbox" value="cb-abc" />
+                    <input name="my-checkboxes[]" data-label="Checkbox 3" type="checkbox" value="cb-true" />
+                  </form>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="checkboxes-code">
+                  <h4>HTML</h4>
+                  <pre>
+&lt;form action=&quot;&quot; method=&quot;post&quot;&gt;
+  &lt;input name=&quot;my-checkboxes[]&quot; data-label=&quot;Checkbox 1&quot; type=&quot;checkbox&quot; value=&quot;cb-123&quot; /&gt;
+  &lt;input name=&quot;my-checkboxes[]&quot; data-label=&quot;Checkbox 2&quot; type=&quot;checkbox&quot; value=&quot;cb-abc&quot; /&gt;
+  &lt;input name=&quot;my-checkboxes[]&quot; data-label=&quot;Checkbox 3&quot; type=&quot;checkbox&quot; value=&quot;cb-true&quot; /&gt;
+&lt;/form&gt;</pre>
+                  <h4>JavaScript</h4>
+                  <pre>$("input:checkbox").lazyForms();</pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Radio buttons -->
+          <div class="row" id="radios">
+            <div class="col-xs-12">
+              <h2>Radios</h2>
+              <ul class="nav nav-tabs">
+                <li role="presentation" class="active">
+                  <a href="#radios-output" aria-controls="radios-output" role="tab" data-toggle="tab">Output</a>
+                </li>
+                <li role="presentation">
+                  <a href="#radios-code" aria-controls="radios-code" role="tab" data-toggle="tab">Code</a>
+                </li>
+              </ul>
+              <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="radios-output">
+                  <form action="" method="post">
+                    <input name="my-radios-1[]" data-label="Radio 1" type="radio" value="r-123" />
+                    <input name="my-radios-1[]" data-label="Radio 2" type="radio" value="r-abc" />
+                    <input name="my-radios-1[]" data-label="Radio 3" type="radio" value="r-true" />
+                  </form>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="radios-code">
+                  <h4>HTML</h4>
+                  <pre>
+&lt;form action=&quot;&quot; method=&quot;post&quot;&gt;
+  &lt;input name=&quot;my-radios-1[]&quot; data-label=&quot;Radio 1&quot; type=&quot;radio&quot; value=&quot;r-123&quot; /&gt;
+  &lt;input name=&quot;my-radios-1[]&quot; data-label=&quot;Radio 2&quot; type=&quot;radio&quot; value=&quot;r-abc&quot; /&gt;
+  &lt;input name=&quot;my-radios-1[]&quot; data-label=&quot;Radio 3&quot; type=&quot;radio&quot; value=&quot;r-true&quot; /&gt;
+&lt;/form&gt;</pre>
+                  <h4>JavaScript</h4>
+                  <pre>$("input:radio").lazyForms();</pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dropdowns -->
+          <div class="row" id="selects">
+            <div class="col-xs-12">
+              <h2>Dropdowns</h2>
+              <ul class="nav nav-tabs">
+                <li role="presentation" class="active">
+                  <a href="#selects-output" aria-controls="selects-output" role="tab" data-toggle="tab">Output</a>
+                </li>
+                <li role="presentation">
+                  <a href="#selects-code" aria-controls="selects-code" role="tab" data-toggle="tab">Code</a>
+                </li>
+              </ul>
+              <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="selects-output">
+                  <form action="" method="post">
+                    <select name="my-select">
+                      <option value="">- Select -</option>
+                      <option value="o-123">Option 1</option>
+                      <option value="o-abc">Option 2</option>
+                      <option value="o-true">Option 3</option>
+                    </select>
+                  </form>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="selects-code">
+                  <h4>HTML</h4>
+                  <pre>
+&lt;form action=&quot;&quot; method=&quot;post&quot;&gt;
+  &lt;select name=&quot;my-select&quot;&gt;
+    &lt;option value=&quot;&quot;&gt;- Select -&lt;/option&gt;
+    &lt;option value=&quot;o-123&quot;&gt;Option 1&lt;/option&gt;
+    &lt;option value=&quot;o-abc&quot;&gt;Option 2&lt;/option&gt;
+    &lt;option value=&quot;o-true&quot;&gt;Option 3&lt;/option&gt;
+  &lt;/select&gt;
+&lt;/form&gt;</pre>
+                  <h4>JavaScript</h4>
+                  <pre>$("select").lazyForms();</pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Buttons -->
+          <div class="row" id="buttons">
+            <div class="col-xs-12">
+              <h2>Buttons</h2>
+              <ul class="nav nav-tabs">
+                <li role="presentation" class="active">
+                  <a href="#buttons-output" aria-controls="buttons-output" role="tab" data-toggle="tab">Output</a>
+                </li>
+                <li role="presentation">
+                  <a href="#buttons-code" aria-controls="buttons-code" role="tab" data-toggle="tab">Code</a>
+                </li>
+              </ul>
+              <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="buttons-output">
+                  <form action="" method="post">
+                    <input name="my-button" type="button" id="button" value="Input Button" />
+                    <input name="my-submit" type="submit" id="submit" value="Submit Button" />
+                    <button>Button</button>
+                  </form>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="buttons-code">
+                  <h4>HTML</h4>
+                  <pre>
+&lt;form action=&quot;&quot; method=&quot;post&quot;&gt;
+  &lt;input name=&quot;my-button&quot; type=&quot;button&quot; id=&quot;button&quot; value=&quot;Input Button&quot; /&gt;
+  &lt;input name=&quot;my-submit&quot; type=&quot;submit&quot; id=&quot;submit&quot; value=&quot;Submit Button&quot; /&gt;
+  &lt;button&gt;Button&lt;/button&gt;
+&lt;/form&gt;</pre>
+                  <h4>JavaScript</h4>
+                  <pre>$("input:submit, input:button, button").lazyForms();</pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="col-md-3" role="navigation">
+          <div data-spy="affix" data-offset-top="240" data-offset-bottom="0">
+            <ul class="nav nav-pills nav-stacked">
+              <li>
+                <a href="#checkboxes">Checkboxes</a>
+              </li>
+              <li>
+                <a href="#radios">Radios</a>
+              </li>
+              <li>
+                <a href="#selects">Selects</a>
+              </li>
+              <li>
+                <a href="#buttons">Buttons</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Include dependencies -->
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+
+    <!-- Include Lazy Forms -->
+    <script src="javascripts/jquery.lazyForms-1.0.0.min.js"></script>
+
+    <!-- Initialize Lazy Forms -->
+    <script>
+      $(document).ready(function(){
+        $("input:checkbox, input:radio, input:submit, input:button, select, button").lazyForms();
+      });
+    </script>
+
+    <!-- Scripts below this line are for presentation usage only and not required for Lazy Forms -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+    <!-- Bootstrap workaround. See http://stackoverflow.com/questions/11568430/issue-with-twitter-bootstrap-pills -->
+    <script>
+      $(document).ready(function(){
+        $(".nav-stacked li").click(function(){
+          $(".nav-stacked li").removeClass("active");
+          $(this).addClass("active");
+        });
+      });
+    </script>
+
+  </body>
+
+</html>
